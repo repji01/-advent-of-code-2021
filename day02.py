@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-"""day01.py: Advent of Code 2020 --- Day 1: Report Repair ---
-   https://adventofcode.com/2020/day/1
+"""day01.py: Advent of Code 2021 --- Day 1: Report Repair ---
+   https://adventofcode.com/2020/day/2
 """
 
 __version__ = "1.0"
@@ -15,39 +15,49 @@ from utils import *
 
 
 def download_input_data():
-    global fin
-    global nums
-    #advent.setup(2021, 1, dry_run=False)
-    #fin = advent.get_input()
-    #nums = list(map(int, fin.readlines()))
+    global lines
+    advent.setup(2021, 2, dry_run=False)
+    fin = advent.get_input()
+    lines = get_lines(fin.readlines())
 
 
 def part01():
-    global fin
-    global nums
-    global total
-    total = 0
-    for idx, num in enumerate(nums[1:]):
-        if (num>nums[idx]):
-            total+=1
-    assert total == 1446
-    advent.submit_answer(1, total)
+    global lines
+    aim = position = depth = 0
+    for command in lines:
+        cmd, amount = command.split()
+        if cmd == "up":
+            depth -= int(amount)
+        if cmd == "down":
+            depth += int(amount)
+        if cmd == "forward":
+            position += int(amount)
+        print(f"[{command.ljust(15)}] DEPTH: {depth} POS: {position}")
+
+    #assert total == 1446
+    advent.submit_answer(1, position*depth)
 
 
 def part02():
-    global fin
-    global nums
-    global total
-    total = 0
-    for idx, num in enumerate(nums[3:], start=3):
-        if (num > nums[idx - 3]):
-            total += 1
-    assert total == 1486
-    advent.submit_answer(2, total)
+    global lines
+    aim = position = depth = 0
+    for command in lines:
+        cmd, amount = command.split()
+        if cmd == "up":
+            aim -= int(amount)
+        if cmd == "down":
+            aim += int(amount)
+        if cmd == "forward":
+            position += int(amount)
+            depth += aim * int(amount)
+        print(f"[{command.ljust(15)}] DEPTH: {depth} POS: {position}")
+
+    #assert total == 1446
+    advent.submit_answer(2, position*depth)
 
 
 if __name__ == "__main__":
     download_input_data()
     timer_start()
-    #part01()
+    part01()
     #part02()
